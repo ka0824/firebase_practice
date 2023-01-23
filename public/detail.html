@@ -29,10 +29,6 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-storage.js"></script>
 
-    <script type="commonjs">
-      import
-    </script>
-
     <script>
       const firebaseConfig = {
         apiKey: "AIzaSyA9YqsdEpfHip0bGoaY4KqgRipKuY3jKtg",
@@ -44,50 +40,28 @@
       };
       firebase.initializeApp(firebaseConfig);
     </script>
+    <div class="container">
+      상세페이지임
     <script>
+      const queryString = new URLSearchParams(window.location.search);
       const db = firebase.firestore();
       db.collection("product")
+        .doc(queryString.get("id"))
         .get()
         .then((result) => {
-          result.forEach((doc) => {
-            console.log(doc.data());
-            const template = `<div class="product">
-              <div class="thumbnail" style="background-image: url(${
-                doc.data().이미지
-              })"></div>
-              <div class="flex-grow-1 p-4">
-              <h5 class="title"><a href="/public/detail.html?id=${doc.id}"> ${
-              doc.data().제목
-            } </a></h5>
-              <p class="date">2023년 1월 23일</p>
-              <p class="price">${doc.data().가격}원</p>
-              <p class="float-end">🤍0</p>
-              </div>
+          console.log(result.data());
+
+          const template = `<div
+            class="detail-pic my-4" style="background-image: url(${result.data().이미지})"></div>
+            <div>
+                <h5>올린사람 : 모름</h5>
+                <hr />
+                <h5 class="title">${result.data().제목}</h5>
+                <p class="date">${result.data().내용}</p>
+                <p class="price">${result.data().가격}</p>
             </div>`;
-            $(".container").append(template);
-          });
+          $(".container").append(template);
         });
-    </script>
-    <div class="container mt-3"></div>
-    <button id="regist">상품 등록</button>
-    <script>
-      $("#regist").click(function () {
-        window.location.href = "/public/upload.html";
-      });
-    </script>
-    <button id="signup-move">회원가입</button>
-    <button id="signin-move">로그인</button>
-    <button id="logout">로그아웃</button>
-    <script>
-      $("#signup-move").click(function () {
-        window.location.href = "/public/signUp.html";
-      });
-      $("#signin-move").click(function () {
-        window.location.href = "/public/signIn.html";
-      });
-      $("#logout").click(function () {
-        firebase.auth().signOut();
-      });
     </script>
   </body>
 </html>

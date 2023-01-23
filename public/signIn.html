@@ -43,42 +43,30 @@
     <div class="container mt-3">
       <div class="mb-3">
         <input
-          type="text"
-          class="form-control"
-          placeholder="name"
-          id="name-new"
-        />
-      </div>
-      <div class="mb-3">
-        <input
           type="email"
           class="form-control"
           placeholder="email"
-          id="email-new"
+          id="email"
         />
       </div>
       <div class="mb-3">
-        <input
-          type="password"
-          class="form-control"
-          placeholder="pw"
-          id="pw-new"
-        />
+        <input type="password" class="form-control" placeholder="pw" id="pw" />
       </div>
-      <button type="submit" class="btn btn-primary" id="register">
-        가입하기
+      <button type="submit" class="btn btn-primary" id="login">
+        로그인하기
       </button>
     </div>
     <script>
-      $("#register").click(function () {
-        const email = $("#email-new").val();
-        const password = $("#pw-new").val();
+      $("#login").click(function () {
+        const email = $("#email").val();
+        const password = $("#pw").val();
 
         firebase
           .auth()
-          .createUserWithEmailAndPassword(email, password)
+          .signInWithEmailAndPassword(email, password)
           .then((result) => {
             console.log(result.user);
+            window.location.href = "/public/index.html";
           });
       });
     </script>

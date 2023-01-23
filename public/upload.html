@@ -70,10 +70,16 @@
     </div>
     <script>
       $("#send").click(function () {
+        const info = {
+          제목: $("#title").val(),
+          가격: $("#price").val(),
+          내용: $("#content").val(),
+        };
+
         const storage = firebase.storage();
         const file = document.querySelector("#image").files[0];
         const storageRef = storage.ref();
-        const storageDir = storageRef.child("image/" + "name");
+        const storageDir = storageRef.child("image/" + info.제목);
         const uploadImg = storageDir.put(file);
         uploadImg.on(
           "state_changed",
@@ -84,23 +90,18 @@
           () => {
             uploadImg.snapshot.ref.getDownloadURL().then((url) => {
               console.log("업로드된 경로는", url);
+              info.이미지 = url;
+              db.collection("product")
+                .add(info)
+                .then((result) => {
+                  window.location.href = "/public/index.html";
+                })
+                .catch((error) => {
+                  console.log("저장 실패");
+                });
             });
           }
         );
-
-        const info = {
-          제목: $("#title").val(),
-          가격: $("#price").val(),
-          내용: $("#content").val(),
-        };
-        db.collection("product")
-          .add(info)
-          .then((result) => {
-            window.location.href = "/public/index.html";
-          })
-          .catch((error) => {
-            console.log("저장 실패");
-          });
       });
     </script>
   </body>

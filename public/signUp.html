@@ -29,10 +29,6 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-storage.js"></script>
 
-    <script type="commonjs">
-      import
-    </script>
-
     <script>
       const firebaseConfig = {
         apiKey: "AIzaSyA9YqsdEpfHip0bGoaY4KqgRipKuY3jKtg",
@@ -44,49 +40,48 @@
       };
       firebase.initializeApp(firebaseConfig);
     </script>
+    <div class="container mt-3">
+      <div class="mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="name"
+          id="name-new"
+        />
+      </div>
+      <div class="mb-3">
+        <input
+          type="email"
+          class="form-control"
+          placeholder="email"
+          id="email-new"
+        />
+      </div>
+      <div class="mb-3">
+        <input
+          type="password"
+          class="form-control"
+          placeholder="pw"
+          id="pw-new"
+        />
+      </div>
+      <button type="submit" class="btn btn-primary" id="register">
+        가입하기
+      </button>
+    </div>
     <script>
-      const db = firebase.firestore();
-      db.collection("product")
-        .get()
-        .then((result) => {
-          result.forEach((doc) => {
-            console.log(doc.data());
-            const template = `<div class="product">
-              <div class="thumbnail" style="background-image: url(${
-                doc.data().이미지
-              })"></div>
-              <div class="flex-grow-1 p-4">
-              <h5 class="title"><a href="/public/detail.html?id=${doc.id}"> ${
-              doc.data().제목
-            } </a></h5>
-              <p class="date">2023년 1월 23일</p>
-              <p class="price">${doc.data().가격}원</p>
-              <p class="float-end">🤍0</p>
-              </div>
-            </div>`;
-            $(".container").append(template);
+      $("#register").click(function () {
+        const email = $("#email-new").val();
+        const password = $("#pw-new").val();
+        const name = $("#name-new").val();
+
+        firebase
+          .auth()
+          .createUserWithEmailAndPassword(email, password)
+          .then((result) => {
+            console.log(result.user);
+            result.user.updateProfile({ displayName: name });
           });
-        });
-    </script>
-    <div class="container mt-3"></div>
-    <button id="regist">상품 등록</button>
-    <script>
-      $("#regist").click(function () {
-        window.location.href = "/public/upload.html";
-      });
-    </script>
-    <button id="signup-move">회원가입</button>
-    <button id="signin-move">로그인</button>
-    <button id="logout">로그아웃</button>
-    <script>
-      $("#signup-move").click(function () {
-        window.location.href = "/public/signUp.html";
-      });
-      $("#signin-move").click(function () {
-        window.location.href = "/public/signIn.html";
-      });
-      $("#logout").click(function () {
-        firebase.auth().signOut();
       });
     </script>
   </body>
