@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-storage.js"></script>
+
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyA9YqsdEpfHip0bGoaY4KqgRipKuY3jKtg",
+        authDomain: "practice-97be6.firebaseapp.com",
+        projectId: "practice-97be6",
+        storageBucket: "practice-97be6.appspot.com",
+        messagingSenderId: "950000754573",
+        appId: "1:950000754573:web:66e22828256280963ea7c4",
+      };
+      firebase.initializeApp(firebaseConfig);
+    </script>
+    <script>
+      const db = firebase.firestore();
+      db.collection("product")
+        .get()
+        .then((result) => {
+          result.forEach((doc) => {
+            console.log(doc.data());
+            const template = `<div class="product">
+              <div class="thumbnail" style="background-image: url('https://via.placeholder.com/350')"></div>
+              <div class="flex-grow-1 p-4">
+              <h5 class="title">${doc.data().제목}</h5>
+              <p class="date">2023년 1월 23일</p>
+              <p class="price">${doc.data().가격}원</p>
+              <p class="float-end">?0</p>
+              </div>
+            </div>`;
+            $(".container").append(template);
+          });
+        });
+    </script>
+    <div class="container mt-3"></div>
+    <button id="regist">상품 등록</button>
+    <script>
+      $("#regist").click(function () {
+        window.location.href = "/public/upload.html";
+      });
+    </script>
+  </body>
+</html>
