@@ -74,6 +74,8 @@
           제목: $("#title").val(),
           가격: $("#price").val(),
           내용: $("#content").val(),
+          uid: JSON.parse(localStorage.getItem("user")).uid,
+          이름: JSON.parse(localStorage.getItem("user")).displayName,
         };
 
         const storage = firebase.storage();

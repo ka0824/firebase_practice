@@ -68,6 +68,21 @@
           });
         });
     </script>
+    <span class="ms-auto mx-2" id="userName">로그인 안됨</span>
+
+    <script>
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          console.log(user);
+          localStorage.setItem("user", JSON.stringify(user));
+          let userInfo = localStorage.getItem("user");
+          $("#userName").html(JSON.parse(userInfo).displayName);
+        } else {
+          localStorage.removeItem("user");
+        }
+      });
+    </script>
+
     <div class="container mt-3"></div>
     <button id="regist">상품 등록</button>
     <script>
@@ -75,6 +90,7 @@
         window.location.href = "/public/upload.html";
       });
     </script>
+
     <button id="signup-move">회원가입</button>
     <button id="signin-move">로그인</button>
     <button id="logout">로그아웃</button>
@@ -87,6 +103,8 @@
       });
       $("#logout").click(function () {
         firebase.auth().signOut();
+        localStorage.removeItem("user");
+        window.location.href = "/public/index.html";
       });
     </script>
   </body>
